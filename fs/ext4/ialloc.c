@@ -411,7 +411,7 @@ out:
 
 struct orlov_stats {
 	__u32 free_inodes;
-	__u32 free_blocks;
+        __u32 free_blocks;
 	__u32 used_dirs;
 };
 
