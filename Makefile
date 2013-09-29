@@ -369,6 +369,13 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
  -Ofast -mcpu=cortex-a9 -mtune=cortex-a9 -march=armv7-a -mfloat-abi=softfp -mfpu=vfp3 -funsafe-math-optimizations
+                   -fno-schedule-insns2 \
+		   -pipe \
+		   -ffast-math \
+		   -marm -march=armv7-a \
+		   -mcpu=cortex-a9 -mfpu=neon -mtune=cortex-a9 -fno-pic \
+		   -munaligned-access
+>>>>>>> 24d0c31... makefile: kernel faults with -fschedule-insns2 in GCC 4.8.2
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
