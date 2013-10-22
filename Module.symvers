@@ -954,7 +954,6 @@
 0x5071e0e2	radix_tree_tagged	vmlinux	EXPORT_SYMBOL
 0xbccd4bde	unload_nls	vmlinux	EXPORT_SYMBOL
 0xeb894210	seq_open_private	vmlinux	EXPORT_SYMBOL
-0x009a27ee	siopLevellimit	vmlinux	EXPORT_SYMBOL
 0x5961f157	skb_gso_segment	vmlinux	EXPORT_SYMBOL
 0x588d8953	kernel_listen	vmlinux	EXPORT_SYMBOL
 0x6c70676d	snd_jack_set_parent	vmlinux	EXPORT_SYMBOL
