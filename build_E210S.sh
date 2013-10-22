@@ -17,6 +17,7 @@ export ARCH=arm
 make E210S_defconfig
 nice -n 10 make -j3 || exit 1
 echo del original modules
+find tmp_Ramfs/$NAME/ -name 'empty_dir' -exec rm -rf {} \;
 rm -rf tmp_Ramfs/$NAME/lib/modules/*.ko
 find -name '*.ko' -exec cp -av {} tmp_Ramfs/$NAME/lib/modules/ \;
 $CROSS_COMPILE_STRIP --strip-unneeded tmp_Ramfs/$NAME/lib/modules/*
