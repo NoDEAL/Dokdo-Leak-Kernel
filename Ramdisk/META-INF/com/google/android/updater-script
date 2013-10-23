@@ -1,6 +1,6 @@
 ui_print("");
 ui_print("Dokdo Kernel For Leak 4.2.2 Firmware");
-ui_print("Base on Hyeok Kernel);
+ui_print("Base on Hyeok Kernel");
 show_progress(0.100000, 0);
 show_progress(0.100000, 40);
 ui_print("Flashing the kernel");
