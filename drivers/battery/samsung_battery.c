@@ -45,12 +45,9 @@
 #include <linux/stmpe811-adc.h>
 #endif
 #include <linux/delay.h>
-<<<<<<< HEAD
 #ifdef CONFIG_FAST_BOOT
 #include <linux/fake_shut_down.h>
 #endif
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 
 static char *supply_list[] = {
 	"battery",
@@ -1295,7 +1292,6 @@ static void battery_indicator_icon(struct battery_info *info)
 				POWER_SUPPLY_STATUS_CHARGING;
 		}
 
-<<<<<<< HEAD
 
 #if defined(CONFIG_MACH_KONA)
 		if (info->cable_type == POWER_SUPPLY_TYPE_USB) {
@@ -1303,8 +1299,6 @@ static void battery_indicator_icon(struct battery_info *info)
 				POWER_SUPPLY_STATUS_DISCHARGING;
 		}
 #endif
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		/* in case of fast charging with TA, update charge type */
 		if ((info->cable_type == POWER_SUPPLY_TYPE_MAINS) &&
 			(info->charge_type == POWER_SUPPLY_CHARGE_TYPE_FAST) &&
@@ -1588,7 +1582,6 @@ static void battery_monitor_work(struct work_struct *work)
 			}
 		}
 	}
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_GD2)
 	else if (info->pdata->vf_det_src == VF_DET_CHARGER) {
 		/* ldo control due to hw configuration */
@@ -1603,8 +1596,6 @@ static void battery_monitor_work(struct work_struct *work)
 		}
 	}
 #endif
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 
 	/* If battery is not connected, clear flag for charge scenario */
 	if ((battery_vf_cond(info) == true) ||
@@ -1856,7 +1847,6 @@ monitor_finish:
 	pr_debug("%s: state=%d, soc=%d, fake_shut_down=%d\n", __func__,
 		info->charge_virt_state, info->battery_soc, fake_shut_down);
 
-<<<<<<< HEAD
 	if (fake_shut_down) {
 		if ((info->charge_virt_state ==
 			POWER_SUPPLY_STATUS_DISCHARGING)
@@ -1865,11 +1855,6 @@ monitor_finish:
 
 		pr_info("%s: fake_shut_down mode, skip updating status\n",
 			__func__);
-=======
-	if ((info->charge_virt_state == POWER_SUPPLY_STATUS_DISCHARGING)
-		&& (info->battery_soc == 0) && (fake_shut_down)) {
-		low_batt_power_off = true;
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		goto skip_updating_status;
 	}
 #endif
@@ -1904,13 +1889,9 @@ skip_updating_status:
 					msecs_to_jiffies(1000));
 	}
 
-#ifdef CONFIG_FAST_BOOT
-skip_updating_status:
-#endif
 	mutex_unlock(&info->mon_lock);
 
 #ifdef CONFIG_FAST_BOOT
-<<<<<<< HEAD
 	if (((info->cable_type == POWER_SUPPLY_TYPE_MAINS)
 		|| (info->cable_type == POWER_SUPPLY_TYPE_USB)
 		|| (info->cable_type == POWER_SUPPLY_TYPE_USB_CDP))
@@ -1921,9 +1902,6 @@ skip_updating_status:
 		info->dup_power_off = true;
 		kernel_power_off();
 	} else if (low_batt_power_off == true) {
-=======
-	if (low_batt_power_off == true) {
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		pr_info("%s: Power off the device in fake shutdown mode"\
 			"(soc==0, discharging !!!)\n", __func__);
 
@@ -2394,14 +2372,11 @@ static __devinit int samsung_battery_probe(struct platform_device *pdev)
 		info->pdata->vf_det_src = VF_DET_CHARGER;
 #endif
 
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_ZEST)
 	if (system_rev < 1)
 		info->pdata->vf_det_src = VF_DET_CHARGER;
 #endif
 
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	pr_info("%s: VF detect source: %s\n", __func__,
 		vf_src_name[info->pdata->vf_det_src]);
 

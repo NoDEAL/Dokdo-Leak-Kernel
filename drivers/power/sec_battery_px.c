@@ -51,12 +51,8 @@
 #define SIOP_ACTIVE_CHARGE_CURRENT		450
 #define SIOP_DEACTIVE_CHARGE_CURRENT		1500
 
-<<<<<<< HEAD
 #if defined(CONFIG_TARGET_LOCALE_KOR) || \
 	defined(CONFIG_TARGET_LOCALE_USA)
-=======
-#if defined(CONFIG_TARGET_LOCALE_KOR)
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #define ADC_TA_TH_L	800
 #define ADC_TA_TH_H	2100
 #else
@@ -75,7 +71,6 @@ enum {
 
 #if defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_KONA) || defined(CONFIG_MACH_TAB3)
 #define P4_CHARGING_FEATURE_01	/* SMB347 + MAX17042, use TA_nCON */
-<<<<<<< HEAD
 #if defined(CONFIG_TARGET_LOCALE_USA) || defined(CONFIG_TARGET_LOCALE_KOR)
 enum abs_charging_property {
 	ABS_CHARGING_PROP_CHARGING,
@@ -91,11 +86,6 @@ enum abs_charging_property {
 #define MIN_FULL_SOC	90
 #else
 #define MIN_FULL_SOC	95
-=======
-#if defined(CONFIG_TARGET_LOCALE_KOR) || \
-(defined(CONFIG_MACH_P4NOTE) && defined(CONFIG_TARGET_LOCALE_USA))
-#define PRE_FULL_CHARGING
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #endif
 #endif
 
@@ -125,11 +115,7 @@ static char *supply_list[] = {
 
 /* Get LP charging mode state */
 unsigned int lpcharge;
-<<<<<<< HEAD
 #if (defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && defined(CONFIG_QC_MODEM)
-=======
-#if defined(CONFIG_MACH_P4NOTE) && defined(CONFIG_QC_MODEM)
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 static int battery_get_lpm_state(char *str)
 {
 	get_option(&str, &lpcharge);
@@ -155,14 +141,6 @@ static enum power_supply_property sec_battery_properties[] = {
 static enum power_supply_property sec_power_properties[] = {
 	POWER_SUPPLY_PROP_ONLINE,
 };
-
-#ifdef PRE_FULL_CHARGING
-enum pre_charging_property {
-	PRE_CHARGING_PROP_CHARGING,
-	PRE_CHARGING_PROP_PRE_FULL_CHARGING,
-	PRE_CHARGING_PROP_REAL_FULL_CHARGING,
-};
-#endif
 
 struct battery_info {
 	u32 batt_id;		/* Battery ID from ADC */
@@ -258,15 +236,10 @@ struct battery_data {
 #if defined(CONFIG_MACH_P4NOTELTE_USA_SPR)
 	bool slate_mode;
 #endif
-<<<<<<< HEAD
 #if ((defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && \
 	(defined(CONFIG_TARGET_LOCALE_USA) || \
 	defined(CONFIG_TARGET_LOCALE_KOR)))
 	enum abs_charging_property abs_timer_status;
-=======
-#ifdef PRE_FULL_CHARGING
-	enum pre_charging_property pre_charging_status;
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #endif
 	int charge_type;
 };
@@ -349,11 +322,7 @@ static int check_ta_conn(struct battery_data *battery)
 #ifdef CONFIG_SAMSUNG_LPM_MODE
 static void lpm_mode_check(struct battery_data *battery)
 {
-<<<<<<< HEAD
 #if (defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && defined(CONFIG_QC_MODEM)
-=======
-#if defined(CONFIG_MACH_P4NOTE) && defined(CONFIG_QC_MODEM)
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	battery->charging_mode_booting = lpcharge;
 #else
 	battery->charging_mode_booting = lpcharge =
@@ -534,11 +503,7 @@ enum charger_type sec_get_dedicted_charger_type(struct battery_data *battery)
 
 	if ((lpcharge) &&
 		battery->cable_type == POWER_SUPPLY_TYPE_DOCK) {
-<<<<<<< HEAD
 		battery->cable_sub_type = ONLINE_SUB_TYPE_DESK;
-=======
-		battery->cable_sub_type == ONLINE_SUB_TYPE_DESK;
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		pr_info("[BATT]%s: m(%d), s(%d), p(%d) acc(%d) pwr(%d)\n",
 			__func__, battery->cable_type, battery->cable_sub_type,
 			battery->cable_pwr_type, accessory_line,
@@ -610,13 +575,10 @@ static void sec_get_cable_status(struct battery_data *battery)
 		battery->current_cable_status = CHARGER_BATTERY;
 		battery->info.batt_improper_ta = 0;
 		battery->charge_type = POWER_SUPPLY_CHARGE_TYPE_NONE;
-<<<<<<< HEAD
 #if defined(CONFIG_SMB347_CHARGER)
 		if (battery->pdata->set_aicl_state)
 			battery->pdata->set_aicl_state(1);
 #endif /* CONFIG_SMB347_CHARGER */
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	}
 
 	if (battery->pdata->inform_charger_connection)
@@ -845,36 +807,6 @@ static int sec_get_bat_level(struct power_supply *bat_ps)
 	battery->info.batt_vfsoc = fg_vfsoc;
 #endif /* CONFIG_TARGET_LOCALE_KOR */
 	battery->info.batt_current_avg = avg_current;
-
-#ifdef PRE_FULL_CHARGING
-	/* Algorithm for reducing time to fully charged (from MAXIM) */
-	if (battery->info.charging_enabled &&	/* Charging is enabled */
-		!battery->info.batt_is_recharging &&	/* Not Recharging */
-		((battery->info.charging_source == CHARGER_AC) ||
-		(battery->info.charging_source == CHARGER_MISC) ||
-		(battery->info.charging_source == CHARGER_DOCK)) &&
-		!battery->is_first_check &&	/* Skip the first check */
-		(fg_vcell > 4000 && fg_soc > 95 && fg_vfsoc > 70) &&
-		((fg_current > 20 && fg_current < 330) &&
-		(avg_current > 20 && avg_current < 350))) {
-
-		if (battery->full_check_flag == 2) {
-			pr_info("%s: force fully charged SOC !! (%d)", __func__,
-					battery->full_check_flag);
-			fg_set_full_charged();
-			fg_soc = get_fuelgauge_value(FG_LEVEL);
-			battery->pre_charging_status |=
-				PRE_CHARGING_PROP_PRE_FULL_CHARGING;
-		} else if (battery->full_check_flag < 2)
-			pr_info("%s: full_check_flag (%d)", __func__,
-					battery->full_check_flag);
-
-		/* prevent overflow */
-		if (battery->full_check_flag++ > 10000)
-			battery->full_check_flag = 3;
-	} else
-		battery->full_check_flag = 0;
-#endif
 
 /* P4-Creative does not set full flag by force */
 #if !defined(CONFIG_MACH_P4NOTE) && !defined(CONFIG_MACH_SP7160LTE) && !defined(CONFIG_MACH_TAB3)
@@ -1410,7 +1342,6 @@ static int sec_bat_get_charging_status(struct battery_data *battery)
 	case CHARGER_AC:
 	case CHARGER_MISC:
 	case CHARGER_DOCK:
-<<<<<<< HEAD
 #if defined(PRE_FULL_CHARGING)
 		if (battery->pre_charging_status)
 			return POWER_SUPPLY_STATUS_FULL;
@@ -1419,11 +1350,6 @@ static int sec_bat_get_charging_status(struct battery_data *battery)
 	defined(CONFIG_TARGET_LOCALE_KOR)))
 		if (battery->abs_timer_status)
 			return POWER_SUPPLY_STATUS_FULL;
-=======
-#ifdef PRE_FULL_CHARGING
-		if (battery->pre_charging_status)
-			return POWER_SUPPLY_STATUS_FULL;
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #else
 		if (battery->info.batt_is_full)
 			return POWER_SUPPLY_STATUS_FULL;
@@ -1449,11 +1375,7 @@ static int sec_bat_set_property(struct power_supply *ps,
 
 	switch (psp) {
 	case POWER_SUPPLY_PROP_ONLINE:
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)
-=======
-#if defined(CONFIG_MACH_P4NOTE)
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		pr_info("[BATT] get val (%d)\n", val->intval);
 		online_val = val->intval;
 		online_val &= ~(ONLINE_TYPE_RSVD_MASK);
@@ -2279,7 +2201,6 @@ static void sec_bat_status_update(struct power_supply *bat_ps)
 				battery->pdata->get_input_current();
 
 	/* check fast or slow charge state */
-<<<<<<< HEAD
 	if (charging_status == POWER_SUPPLY_STATUS_CHARGING) {
 		if (battery->info.charging_source == CHARGER_AC) {
 			battery->charge_type =
@@ -2298,23 +2219,6 @@ static void sec_bat_status_update(struct power_supply *bat_ps)
 
 		pr_info("[BATT] set charge state! charge(%d) cable(%d)\n",
 				battery->charge_type, battery->cable_type);
-=======
-	if (charging_status == POWER_SUPPLY_STATUS_CHARGING &&
-			battery->info.aicl_current) {
-		if (battery->info.input_current > battery->info.aicl_current) {
-			battery->charge_type =
-				POWER_SUPPLY_CHARGE_TYPE_SLOW;
-			pr_info("[BATT] set slow charge state!##(%d) (%d)\n",
-				battery->info.input_current,
-				battery->info.aicl_current);
-		} else {
-			battery->charge_type =
-				POWER_SUPPLY_CHARGE_TYPE_FAST;
-			pr_info("[BATT] set fast charge state!##(%d) (%d)\n",
-				battery->info.input_current,
-				battery->info.aicl_current);
-		}
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	}
 #endif /* CONFIG_SMB347_CHARGER */
 
@@ -2371,15 +2275,12 @@ static void sec_cable_check_status(struct battery_data *battery)
 #ifdef PRE_FULL_CHARGING
 		battery->pre_charging_status = PRE_CHARGING_PROP_CHARGING;
 #endif
-<<<<<<< HEAD
 #if ((defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && \
 	(defined(CONFIG_TARGET_LOCALE_USA) || \
 	defined(CONFIG_TARGET_LOCALE_KOR)))
 		battery->abs_timer_status =
 			ABS_CHARGING_PROP_CHARGING;
 #endif
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	}
 __end__:
 	sec_cable_status_update(battery, status);
@@ -2484,15 +2385,12 @@ void sec_cable_charging(struct battery_data *battery)
 		battery->pre_charging_status |=
 			PRE_CHARGING_PROP_REAL_FULL_CHARGING;
 #endif
-<<<<<<< HEAD
 #if ((defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && \
 	(defined(CONFIG_TARGET_LOCALE_USA) || \
 	defined(CONFIG_TARGET_LOCALE_KOR)))
 		battery->abs_timer_status |=
 			ABS_CHARGING_PROP_REAL_FULL_CHARGING;
 #endif
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		/* full charge compensation algorithm by MAXIM */
 		fg_fullcharged_compensation(
 			battery->full_charge_comp_recharge_info, 1);
@@ -2708,11 +2606,7 @@ static int sec_bat_read_proc(char *buf, char **start,
 	cur_time = ktime_to_timespec(ktime);
 
 	len = sprintf(buf,
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE)
-=======
-#ifdef PRE_FULL_CHARGING
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 		"%lu\t%u\t%u\t%u\t%u\t%u\t%u\t%d\t%d\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%d\t0x%04x\t0x%04x\n",
 #else
 		"%lu\t%u\t%u\t%u\t%u\t%u\t%u\t%d\t%d\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t0x%04x\t0x%04x\n",
@@ -2728,13 +2622,8 @@ static int sec_bat_read_proc(char *buf, char **start,
 		sec_bat_get_charging_status(battery), battery->info.batt_health,
 		battery->info.batt_is_full, battery->info.batt_is_recharging,
 		battery->info.abstimer_is_active, battery->info.siop_activated,
-<<<<<<< HEAD
 #if defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE)
 		battery->abs_timer_status,
-=======
-#ifdef PRE_FULL_CHARGING
-		battery->pre_charging_status,
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #endif
 		get_fuelgauge_capacity(CAPACITY_TYPE_FULL),
 		get_fuelgauge_capacity(CAPACITY_TYPE_REP)
@@ -2877,16 +2766,12 @@ static int __devinit sec_bat_probe(struct platform_device *pdev)
 #ifdef PRE_FULL_CHARGING
 	battery->pre_charging_status = PRE_CHARGING_PROP_CHARGING;
 #endif
-<<<<<<< HEAD
 #if ((defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) || defined(CONFIG_MACH_TAB3)) && \
 	(defined(CONFIG_TARGET_LOCALE_USA) || \
 	defined(CONFIG_TARGET_LOCALE_KOR)))
 	battery->abs_timer_status = ABS_CHARGING_PROP_CHARGING;
 #endif
 	battery->cable_type = POWER_SUPPLY_TYPE_BATTERY;
-=======
-
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	/* Get initial cable status */
 	sec_get_cable_status(battery);
 	battery->previous_cable_status = battery->current_cable_status;

@@ -28,11 +28,7 @@
 #include <linux/gpio.h>
 
 #define FULL_SOC_DEFAULT	9650
-<<<<<<< HEAD
 #define FULL_SOC_LOW		9300
-=======
-#define FULL_SOC_LOW		9500
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #define FULL_SOC_HIGH		10000
 
 static ssize_t sec_fg_show_property(struct device *dev,

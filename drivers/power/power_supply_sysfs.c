@@ -42,15 +42,9 @@ static ssize_t power_supply_show_property(struct device *dev,
 					  struct device_attribute *attr,
 					  char *buf) {
 	static char *type_text[] = {
-<<<<<<< HEAD
 		"Unknown", "Battery", "UPS", "Mains", "USB",
 		"USB_DCP", "USB_CDP", "USB_ACA",
 		"DOCK", "MISC", "WIRELESS", "OTG"
-=======
-		"Battery", "UPS", "Mains", "USB",
-		"USB_DCP", "USB_CDP", "USB_ACA", "OTG",
-		"DOCK", "MISC", "WIRELESS", "UNKNOWN"
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	};
 	static char *status_text[] = {
 		"Unknown", "Charging", "Discharging", "Not charging", "Full"

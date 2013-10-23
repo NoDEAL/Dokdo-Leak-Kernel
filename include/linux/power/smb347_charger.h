@@ -26,10 +26,7 @@ struct smb_charger_callbacks {
 	int (*get_charger_is_full) (void);
 	int (*get_aicl_current)(void);
 	int (*get_input_current)(void);
-<<<<<<< HEAD
 	void (*set_aicl_state)(int);
-=======
->>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 };
 
 struct smb_charger_data {
