@@ -1,0 +1,13 @@
+ui_print("");
+ui_print("Edit by kh4975(gal3(?)) In DEVELOID");
+show_progress(0.100000, 0);
+show_progress(0.100000, 40);
+ui_print("Flashing the kernel");
+assert(package_extract_file("boot.img", "/tmp/boot.img"),
+show_progress(0.100000, 70);
+write_raw_image("/tmp/boot.img", "/dev/block/mmcblk0p5"),
+show_progress(0.100000, 90);
+delete("/tmp/boot.img"));
+show_progress(0.100000, 100);
+ui_print("");
+
