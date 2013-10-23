@@ -186,6 +186,7 @@ struct battery_info {
 	|| defined(CONFIG_MACH_T0_CHN_CTC)
 	bool is_unspec_phase;
 	bool is_unspec_recovery;
+<<<<<<< HEAD
 #endif
 
 #ifdef CONFIG_FAST_BOOT
@@ -201,6 +202,8 @@ struct battery_info {
 
 #if defined(CONFIG_MACH_GD2)
 	bool is_hdmi_attached;
+=======
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #endif
 };
 

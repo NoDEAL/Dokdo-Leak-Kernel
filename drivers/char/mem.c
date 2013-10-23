@@ -934,8 +934,12 @@ static const struct memdev {
 		},
 #endif
 #ifdef CONFIG_EXYNOS_MEM
+<<<<<<< HEAD
 	[14] = {"exynos-mem", S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP,
 				&exynos_mem_fops},
+=======
+	[14] = {"exynos-mem", S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP, &exynos_mem_fops},
+>>>>>>> ef3d3a4... mem: fix permissions on exynos-mem
 #endif
 };
 

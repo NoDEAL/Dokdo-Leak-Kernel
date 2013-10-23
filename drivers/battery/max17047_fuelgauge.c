@@ -713,7 +713,11 @@ static int max17047_set_property(struct power_supply *psy,
 		/* adjust full soc */
 		max17047_adjust_fullsoc(fg_data->client);
 		break;
+<<<<<<< HEAD
 #if defined(CONFIG_MACH_GC1) || defined(CONFIG_MACH_GD2)
+=======
+#if defined(CONFIG_MACH_GC1)
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	case POWER_SUPPLY_PROP_RCOMP:
 		if (fg_data->prev_status == val->intval) {
 			pr_debug("%s: No rcomp change, prev(%d) = cur(%d)\n",
@@ -987,7 +991,11 @@ static int __devinit max17047_fuelgauge_i2c_probe(struct i2c_client *client,
 	else
 		fg_data->fuelgauge.name = "max17047-fuelgauge";
 
+<<<<<<< HEAD
 #if defined(CONFIG_MACH_GC1) || defined(CONFIG_MACH_GD2)
+=======
+#if defined(CONFIG_MACH_GC1)
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	fg_data->prev_status = POWER_SUPPLY_STATUS_DISCHARGING;
 #endif
 	fg_data->fuelgauge.type = POWER_SUPPLY_TYPE_UNKNOWN;

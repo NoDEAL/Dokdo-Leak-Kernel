@@ -551,7 +551,10 @@ static int smb347_i2c_probe
 	chg->callbacks->get_charger_is_full = smb347_get_charger_is_full;
 	chg->callbacks->get_aicl_current = smb347_get_aicl_current;
 	chg->callbacks->get_input_current = smb347_get_input_current;
+<<<<<<< HEAD
 	chg->callbacks->set_aicl_state = smb347_set_aicl_state;
+=======
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	if (chg->pdata && chg->pdata->register_callbacks)
 		chg->pdata->register_callbacks(chg->callbacks);
 

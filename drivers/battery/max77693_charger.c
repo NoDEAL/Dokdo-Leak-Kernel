@@ -483,7 +483,27 @@ void max77693_set_input_current(struct max77693_charger_data *chg_data,
 	check_charger_unlock_state(chg_data);
 #endif
 
+<<<<<<< HEAD
 #if defined(CONFIG_MACH_M0_DUOSCTC) || defined(CONFIG_MACH_ZEST)
+=======
+#if defined(CONFIG_MACH_M0_DUOSCTC)
+	if (set_current == OFF_CURR) {
+		pr_debug("%s: buck off current(%d)\n", __func__, set_current);
+		max77693_write_reg(i2c, MAX77693_CHG_REG_CHG_CNFG_09, 0);
+
+		max77693_set_buck(chg_data, DISABLE);
+
+		if (chg_data->soft_reg_state == true) {
+			pr_info("%s: exit soft regulation loop\n", __func__);
+			chg_data->soft_reg_state = false;
+		}
+
+		mutex_unlock(&chg_data->ops_lock);
+		return;
+	} else
+		max77693_set_buck(chg_data, ENABLE);
+#else
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 	if (set_current == OFF_CURR) {
 		pr_debug("%s: buck off current(%d)\n", __func__, set_current);
 		max77693_write_reg(i2c, MAX77693_CHG_REG_CHG_CNFG_09, 0);
@@ -1186,6 +1206,7 @@ static void max77693_charger_reg_init(struct max77693_charger_data *chg_data)
 		reg_data |= (0x04 << 3);	/* 40min */
 #endif
 #else
+<<<<<<< HEAD
 #if (defined(CONFIG_MACH_GC1) && !defined(CONFIG_MACH_GC1_USA_VZW)) || \
 	defined(CONFIG_MACH_ZEST)
 		reg_data = (0x02 << 0);		/* 150mA */
@@ -1193,6 +1214,11 @@ static void max77693_charger_reg_init(struct max77693_charger_data *chg_data)
 #elif defined(CONFIG_MACH_GD2) || defined(CONFIG_MACH_GC2PD)
 		reg_data = (0x04 << 0);		/* 200mA */
 		reg_data |= (0x00 << 3);	/* 0min */
+=======
+#if (defined(CONFIG_MACH_GC1) && !defined(CONFIG_MACH_GC1_USA_VZW))
+		reg_data = (0x02 << 0);		/* 150mA */
+		reg_data |= (0x00 << 3);	/* 0min */
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 #else	/* M0, C1, GC_VZW,, */
 		reg_data = (0x00 << 0);		/* 100mA */
 		reg_data |= (0x00 << 3);	/* 0min */
@@ -1985,7 +2011,10 @@ static __devinit int max77693_charger_probe(struct platform_device *pdev)
 
 	INIT_DELAYED_WORK(&chg_data->update_work, max77693_update_work);
 	INIT_DELAYED_WORK(&chg_data->softreg_work, max77693_softreg_work);
+<<<<<<< HEAD
 	INIT_DELAYED_WORK(&chg_data->recovery_work, max77693_recovery_work);
+=======
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 
 	chg_data->charger.name = "max77693-charger";
 	chg_data->charger.type = POWER_SUPPLY_TYPE_UNKNOWN;

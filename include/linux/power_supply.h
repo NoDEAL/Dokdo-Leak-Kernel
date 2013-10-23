@@ -132,6 +132,7 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_MODEL_NAME,
 	POWER_SUPPLY_PROP_MANUFACTURER,
 	POWER_SUPPLY_PROP_SERIAL_NUMBER,
+<<<<<<< HEAD
 #if defined(CONFIG_MACH_GC1) || defined(CONFIG_MACH_GD2)
 	POWER_SUPPLY_PROP_RCOMP,
 #endif
@@ -143,6 +144,11 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_COMPENSATION_1,
 	POWER_SUPPLY_PROP_COMPENSATION_3,
 #endif
+=======
+#if defined(CONFIG_MACH_GC1)
+	POWER_SUPPLY_PROP_RCOMP,
+#endif
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 };
 
 enum power_supply_type {
@@ -162,12 +168,18 @@ enum power_supply_type {
         POWER_SUPPLY_TYPE_OTG,
 #else
 	POWER_SUPPLY_TYPE_DOCK,
+<<<<<<< HEAD
         POWER_SUPPLY_TYPE_MISC,
         POWER_SUPPLY_TYPE_WIRELESS,     /* Wireless Charging should be 10 */
         POWER_SUPPLY_TYPE_CARDOCK,
         POWER_SUPPLY_TYPE_UARTOFF,
         POWER_SUPPLY_TYPE_OTG,
 #endif
+=======
+	POWER_SUPPLY_TYPE_MISC,
+	POWER_SUPPLY_TYPE_WIRELESS,
+	POWER_SUPPLY_TYPE_UNKNOWN,
+>>>>>>> 272bddd... drivers: charging, battery and mfd related changes
 };
 
 enum {
