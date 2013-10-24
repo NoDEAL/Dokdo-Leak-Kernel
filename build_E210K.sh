@@ -19,7 +19,7 @@ nice -n 10 make -j32 || exit 1
 echo del original modules
 find tmp_Ramfs/SHV-E210K/ -name 'empty_dir' -exec rm -rf {} \;
 rm -rf tmp_Ramfs/SHV-E210K/lib/modules/*.ko
-find -name '*.ko' -exec cp -av {} $RAMFS_TMP/lib/modules/ \;
+find -name '*.ko' -exec cp -av {} tmp_Ramfs/SHV-E210K/lib/modules/ \;
 $CROSS_COMPILE_STRIP --strip-unneeded tmp_Ramfs/SHV-E210K/lib/modules/*
 cd tmp_Ramfs/SHV-E210K/
 find | fakeroot cpio -H newc -o > ramdisk.cpio 2>/dev/null
