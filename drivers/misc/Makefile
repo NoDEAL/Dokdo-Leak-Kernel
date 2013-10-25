@@ -88,10 +88,4 @@ obj-$(CONFIG_MACH_M0_CTC)   += cw_tty.o
 
 # Secure OS Mobicore Interface
 obj-$(CONFIG_MOBICORE_SUPPORT)  += tzic.o
-<<<<<<< HEAD
 obj-$(CONFIG_MOBICORE_DRIVER)  += tzic.o
-=======
-
-# Touchwake
-obj-$(CONFIG_TOUCH_WAKE)        += touch_wake.o
->>>>>>> ba96b89... Touch to Wake implementation
