@@ -155,8 +155,19 @@ static int mali_pm_os_suspend(struct platform_device *pdev, pm_message_t state);
 static int mali_pm_os_suspend(struct device *dev);
 #endif
 
+#ifdef CONFIG_GPU_CLOCK_CONTROL
+#include <../common/gpu_clock_control.h>
+#include <../common/gpu_voltage_control.h>
+#endif
+
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(LINUX_KERNEL_MAJOR_VERSION,LINUX_KERNEL_MINOR_VERSION,LINUX_KERNEL_DEVELOPMENT_VERSION))
 static int mali_pm_os_resume(struct platform_device *pdev);
+
+
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29))
+static int mali_os_suspend(struct platform_device *pdev, pm_message_t state);
+static int mali_os_resume(struct platform_device *pdev);
+>>>>>>> a83faba... mali: GPU control
 #else
 static int mali_pm_os_resume(struct device *dev);
 #endif
@@ -649,6 +660,12 @@ int _mali_dev_platform_register(void)
 	}
 #endif
 
+#ifdef CONFIG_GPU_CLOCK_CONTROL
+  gpu_clock_control_start();
+  gpu_voltage_control_start();
+#endif
+
+#if MALI_LICENSE_IS_GPL
 	err = platform_device_register(&mali_gpu_device);
 	lock = _mali_osk_lock_init((_mali_osk_lock_flags_t)( _MALI_OSK_LOCKFLAG_READERWRITER | _MALI_OSK_LOCKFLAG_ORDERED), 0, 0);
 	if (!err) 
